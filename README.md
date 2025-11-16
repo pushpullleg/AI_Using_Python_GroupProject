@@ -1,4 +1,4 @@
-# Post-Discussion Repository: MLEDA, Data Processing, Analysis & Visualization
+# Post-Discussion Repository: ML-EDA, Data Processing, Analysis & Visualization
 
 ## 1. Context
 
