@@ -64,7 +64,7 @@ Most of the coding support was assisted by LLMs and agents. However, every analy
 2. **Evaluate** the three ML problem options in the Strategic Plan file.
 3. **Choose** one to move forward with.
 
-   * If none seem viable, we can consider **switching datasets** or **adopting a new ML case study** to save time.
+   * If none seem viable, we can consider **switching datasets** or **adopting a new existing ML case study** and just follow the tutorials and save time.
 4. Once finalized, we’ll:
 
    * Begin data preprocessing
