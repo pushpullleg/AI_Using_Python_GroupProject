@@ -79,6 +79,4 @@ This repo reflects our **iterative learning process**—from exploratory work to
 
 Let’s review the three proposed problems together before committing to the final model.
 
----
 
-🧠 *Prepared and documented by Mukesh*
