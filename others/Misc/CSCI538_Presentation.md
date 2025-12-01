@@ -14,7 +14,7 @@
 
 ### Slide 1: Title Slide
 
-**Temporal Validation in NCAA Athletics Financial Trajectory Prediction: Addressing Data Leakage in Machine Learning Models**
+**Predicting NCAA Athletic Program Financial Trajectories: A Machine Learning Approach with Temporal Validation**
 
 - Mukesh Ravichandran
 - Abner Lusung
@@ -24,38 +24,38 @@
 
 ---
 
-### Slide 2: Problem Statement
+### Slide 2: Problem Statement & Research Question
 
 **The Challenge**
 - Predicting financial trajectory of 1,700+ NCAA athletic programs
 - Critical for resource allocation and institutional planning
 - Three-class prediction: Improving, Stable, Declining
 
-**The Risk: Data Leakage**
-- Common pitfall in time series ML (Kaufman et al., 2012)
-- Can produce artificially high accuracy that fails in production
+**Research Question**
+Can we accurately predict whether an NCAA athletic program will experience an Improving, Stable, or Declining financial trajectory using historical financial and operational data?
 
-**Our Goal**
-- Build prediction system with proper temporal validation
-- Generate honest, actionable predictions
+**Our Approach**
+- Implement temporal validation methodology for time series prediction
+- Engineer features using only historically available information
+- Generate honest, actionable predictions for decision-makers
 
 ---
 
-### Slide 3: What is Data Leakage?
+### Slide 3: Why Temporal Validation?
 
-**Definition**: When information that would not be available at prediction time inadvertently influences the model during training, creating an illusion of high performance that disappears in real-world deployment
+**The Challenge for Time Series Prediction**
+- Models must predict the future using only past information
+- Random train-test splits violate temporal causality
+- Features must be available at prediction time
 
-**Two Common Sources of Leakage:**
+**Our Methodology: Temporal Validation**
+- Split data chronologically, not randomly
+- Train on past → Validate on intermediate → Test on recent → Predict on future
+- Ensures realistic performance estimates for production deployment
 
-1. **Target-Derived Features**
-   - Using lagged target labels as features
-   - Model gets encoded answers as input!
-
-2. **Random Train-Test Split**
-   - Future data in training, past data in testing
-   - Model "predicts" the past using future knowledge
-
-**Our Solution**: Strict temporal validation to prevent both issues
+**Literature Support**
+- Bergmeir & Benítez (2012): Temporal validation essential for time series
+- Tashman (2000): Rolling-origin evaluation provides realistic forecasting accuracy
 
 ---
 
@@ -80,7 +80,7 @@
 
 ### Slide 5: Temporal Validation Methodology
 
-**The Fix**: Split data by TIME, not randomly
+**Our Approach: Chronological Data Splitting**
 
 ```
 2014-2016     2017-2019     2020-2021     2022         2023
@@ -91,13 +91,16 @@
              patterns      params     eval       predictions
 ```
 
-**Key Principle**: Never let the model see the future during training
+**Key Principles**:
+- Temporal causality: Train only on past data
+- Realistic evaluation: Test on future holdout set
+- True prediction: 2023 predictions use only 2014-2022 data
 
 ---
 
 ### Slide 6: Feature Engineering
 
-**14 Leak-Free Features** (using only past data)
+**14 Historically-Derived Features** (engineered using only temporal information)
 
 | Category | Features |
 |----------|----------|
@@ -108,7 +111,10 @@
 | Raw Values | Grand Total Revenue, Grand Total Expenses |
 | Categorical | Division (D1/D2/D3/Other) |
 
-**Important**: These 14 features are the ONLY features in our model. We explicitly avoided common leakage pitfalls (e.g., lagged target labels, future-looking features) that would not be available at prediction time.
+**Design Philosophy**:
+- All features computed from historical data only
+- Features available at prediction time
+- Captures financial trends, growth patterns, and operational efficiency
 
 ---
 
@@ -167,12 +173,23 @@
 
 ### Slide 10: Results - Visualizations
 
-*[Include these figures from reports/ folder]*
+**Four Key Visualizations:**
 
-- **Confusion Matrices**: Per-model performance breakdown
-- **Model Comparison Chart**: Side-by-side accuracy comparison
-- **Feature Importance**: Top predictive features
-- **Temporal Split Diagram**: How data was divided
+1. **Confusion Matrices**: Per-model performance breakdown
+   - File: `reports/confusion_matrices.png`
+   - Path: `Temporal_Validated/reports/confusion_matrices.png`
+
+2. **Model Comparison Chart**: Side-by-side accuracy comparison
+   - File: `reports/model_comparison.png`
+   - Path: `Temporal_Validated/reports/model_comparison.png`
+
+3. **Feature Importance**: Top predictive features
+   - File: `reports/feature_importance.png`
+   - Path: `Temporal_Validated/reports/feature_importance.png`
+
+4. **Temporal Split Diagram**: How data was divided
+   - File: `reports/temporal_split.png`
+   - Path: `Temporal_Validated/reports/temporal_split.png`
 
 ---
 
@@ -196,22 +213,25 @@
 
 ### Slide 12: Key Findings
 
-1. **Data leakage prevention is critical**
-   - Proper methodology ensures reliable results
+1. **Temporal validation produces realistic, trustworthy predictions**
+   - 57.3% accuracy represents genuine predictive value
+   - 29% improvement over baseline demonstrates real utility
 
-2. **Temporal validation is essential**
-   - For any time series problem, split by time
+2. **Financial trajectory prediction is challenging but feasible**
+   - Three-class problem with inherent uncertainty
+   - Modest accuracy is meaningful for decision support
 
-3. **57.3% accuracy has real value**
-   - 29% improvement over baseline
-   - Stakeholders can trust these predictions
+3. **Feature engineering captures predictive signals**
+   - 14 features derived from historical trends sufficient
+   - Efficiency ratios and growth patterns most informative
 
-4. **2023 predictions are actionable**
+4. **2023 predictions ready for deployment**
    - 1,722 institutions with trajectory forecasts
-   - 45 high-confidence cases for priority attention
+   - 45 high-confidence cases identified for priority attention
 
-5. **All 7 verification checks passed**
-   - Rigorous methodology validation
+5. **Methodology verified through rigorous checks**
+   - Seven independent verification checks confirmed temporal integrity
+   - No data leakage detected in final pipeline
 
 ---
 
@@ -235,14 +255,15 @@
 ### Slide 14: Conclusions
 
 **What We Accomplished:**
-- Built prediction system with proper temporal validation
-- Engineered 14 leak-free features
+- Developed machine learning system for financial trajectory prediction
+- Implemented temporal validation methodology for realistic evaluation
+- Engineered 14 historically-derived features from 10 years of data
 - Achieved 57.3% accuracy (+29% over baseline)
-- Generated actionable predictions for 1,722 institutions
-- Verified methodology through 7 independent checks
+- Generated actionable predictions for 1,722 institutions in 2023
+- Verified methodology through 7 independent validation checks
 
 **Main Takeaway:**
-> "Proper temporal validation ensures predictions that stakeholders can trust for real decision-making."
+> "Temporal validation enables trustworthy predictions that stakeholders can use for real-world decision-making in financial forecasting."
 
 **For Athletic Administrators:**
 - Early warning system for financial decline
@@ -254,11 +275,12 @@
 ### Slide 15: References & Q&A
 
 **Key References:**
-- Kaufman et al. (2012) - Data leakage in ML
-- Bergmeir & Benítez (2012) - Time series cross-validation
+- Bergmeir & Benítez (2012) - Time series cross-validation methodology
+- Tashman (2000) - Rolling-origin evaluation for forecasting
 - Breiman (2001) - Random Forests
 - Chen & Guestrin (2016) - XGBoost
-- Chawla et al. (2002) - SMOTE
+- Chawla et al. (2002) - SMOTE for class imbalance
+- Gu et al. (2020) - Financial prediction with realistic evaluation
 - NCAA EADA Database
 
 **Questions?**
@@ -271,21 +293,23 @@
 
 ### Role Division for Presentation
 
-**Mukesh Ravichandran (Slides 1-4, 8-10, 14-15):**
+**Mukesh Ravichandran (Slides 1-3, 4, 8-10, 14-15):**
 - Introduction and problem statement
-- Data leakage explanation
+- Research question and temporal validation rationale
+- Data overview
 - Results and visualizations
 - Conclusions and Q&A
 
 **Abner Lusung (Slides 5-7, 11-13):**
-- Temporal validation methodology
-- Feature engineering
-- Model selection
+- Temporal validation methodology implementation
+- Feature engineering approach
+- Model selection and training
 - 2023 predictions
 - Limitations and future work
 
 ### Timing Guide
-- Introduction (Slides 1-4): ~4 minutes
+- Introduction (Slides 1-3): ~3 minutes
+- Data Overview (Slide 4): ~1 minute
 - Methodology (Slides 5-7): ~4 minutes
 - Results (Slides 8-11): ~5 minutes
 - Discussion (Slides 12-14): ~4 minutes
@@ -293,9 +317,10 @@
 - **Total**: ~20 minutes
 
 ### Key Points to Emphasize
-1. Temporal validation as non-negotiable for time series ML
-2. 57.3% accuracy = 29% improvement over random baseline
-3. Real predictions for 2023 ready for stakeholder use
-4. Practical value for NCAA administrators
-5. Rigorous methodology verified through 7 checks
+1. Clear research question: Predicting financial trajectories for decision support
+2. Temporal validation as essential methodology for time series prediction
+3. 57.3% accuracy = 29% improvement over baseline (meaningful for 3-class problem)
+4. Real predictions for 2023 ready for stakeholder deployment
+5. Practical value: Early warning system for athletic administrators
+6. Rigorous methodology: 7 verification checks ensure trustworthy results
 
